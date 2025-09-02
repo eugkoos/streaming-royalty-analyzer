@@ -8,7 +8,7 @@ Upload royalty/streaming reports (CSV/XLSX) and instantly get insights: which re
 ---
 
 ## ✨ Features
-- **Upload & Auto-mapping** — upload your distributor report, and the app automatically detects key fields (Artist, Track, Platform, Country, Streams — you only need to review and confirm.  
+- **Upload & Auto-mapping** — upload distributor report, and the app automatically detects key fields (Artist, Track, Platform, Country, Streams) — you only need to review and confirm.  
 - **Interactive Dashboard** — visualize performance by tracks, releases, platforms, and countries.  
 - **Key Metrics** — Total Earnings, Total Streams, Payout per 1K Streams, Top Platforms, Countries, and Tracks.  
 - **Top-N & % of total** — focus on Top 5/10/15… and see share of total earnings/streams.  
