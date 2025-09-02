@@ -39,6 +39,8 @@ In one dashboard, you can instantly see:
 - Which tracks and releases drive your revenue  
 - Where you’re strongest — by platform and country
 - The real value of your streams
+
+⚠️ Note: Uploaded files are processed only within your session. They are not stored permanently or shared with any third parties.
     """,
     unsafe_allow_html=True
 )
