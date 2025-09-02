@@ -47,6 +47,7 @@ Musicians and managers receive raw CSV/Excel royalty reports with tens of thousa
 ---
 
 ## 🛠 Tech stack
+- **Language:** Python 
 - **App:** Streamlit  
 - **Data:** Pandas, openpyxl (Excel support)  
 - **Visualization:** Plotly, Matplotlib, Seaborn  
