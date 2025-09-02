@@ -3,7 +3,7 @@
 A **Streamlit app** for musicians, managers, and labels.  
 Upload royalty/streaming reports (CSV/XLSX) and instantly get insights: which releases drive your earnings, on which platforms, and in which countries.  
 
-*Inspired by real-world royalty reports from platforms like **Believe**, **TuneCore**, **DistroKid**, and others.*   
+*Inspired by real-world royalty report structures from music distributors.*   
 
 ---
 
