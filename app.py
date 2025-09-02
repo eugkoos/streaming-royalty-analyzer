@@ -32,7 +32,7 @@ st.title("🎵 Streaming Royalty Analyzer")
 # --- Текст НАД загрузчиком ---
 st.markdown(
     """
-This tool helps **independent artists, labels, and managers** quickly turn royalty reports from distributors (e.g., Believe, ONErpm, DistroKid, TuneCore) into clear insights.  
+This tool helps **independent artists, labels, and managers** quickly turn royalty reports from distributors into clear insights.  
 Use these insights to plan your next release, target promotion where it matters, and show partners the real value of your music.
 
 In one dashboard, you can instantly see:  
