@@ -42,7 +42,7 @@ Musicians and managers receive raw CSV/Excel royalty reports with tens of thousa
 
 ## 🚀 Live demo
 👉 [Try the app on Streamlit Cloud](https://streaming-royalty-analyzer.streamlit.app/)  
-📂 [Download sample report (CSV)]([sample_data/demo_report.csv](https://drive.google.com/file/d/1g0dXM4ZWUg1kvuaYUsLlzCeCxmIhd-GF/view))  
+📂 [Download sample report (CSV)](https://drive.google.com/file/d/1g0dXM4ZWUg1kvuaYUsLlzCeCxmIhd-GF/view)  
 
 ---
 
