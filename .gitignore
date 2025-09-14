@@ -1,0 +1,27 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyc
+
+# OS files
+.DS_Store
+
+# Environments
+.venv/
+venv/
+.env
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Notebooks & checkpoints
+.ipynb_checkpoints/
+
+# Data (put sample CSV/XLSX in a separate 'sample_data' if needed)
+*.csv
+*.xlsx
+*.xls
+*.parquet
+
+#Dataset
+!SampleData/**
