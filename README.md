@@ -1,4 +1,4 @@
-# 🎶 Streaming Royalty Analyzer
+# 🎶 Music Streaming Royalty Analyzer
 
 A **Streamlit app** for musicians, managers, and labels.  
 Upload royalty/streaming reports (CSV/XLSX) and instantly get insights: which releases drive your earnings, on which platforms, and in which countries.  
@@ -82,9 +82,15 @@ pages/
   2_📈_Dashboard.py
 .streamlit/
   config.toml
+LICENSE
+SampleData/
+  sample_distributor_report.csv
 requirements.txt
 README.md
 LICENSE
+PRIVACY.md
+TERMS.md
+.gitignore
 ```
 
 ---

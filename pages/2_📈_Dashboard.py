@@ -29,11 +29,17 @@ st.set_page_config(layout="wide")
 st.markdown(
     """
     <style>
-    .block-container { max-width: 1200px; margin: auto; padding-left: 1rem; padding-right: 1rem; }
-    h1 + div, section.main h1 + div, .block-container h1 + div, h1 + div:empty {
-      display:none !important; height:0 !important; margin:0 !important; padding:0 !important; border:0 !important; background:transparent !important;
+    .block-container {
+      max-width: 1200px;
+      margin: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 0.6rem !important;   /* unified top spacing */
     }
-    .block-container h1 { margin-bottom: .35rem !important; }
+    .block-container h1 {
+      margin-top: 0rem !important;
+      margin-bottom: .35rem !important;
+    }
     [role="progressbar"], div[data-testid="stProgress"], div[data-testid="stStatusWidget"] { display:none !important; }
 
     .rp-caption{ color:#6b7280; font-size:.95rem; margin:.2rem 0 .9rem; }
@@ -69,7 +75,7 @@ st.markdown(
     .flt-guide{
       color:#111827; font-size: clamp(1.10rem, 0.95rem + 0.6vw, 1.45rem);
       font-weight:800; line-height:1.22;
-      margin:.28rem 0 .35rem;            /* компактнее */
+      margin:.28rem 0 .35rem;
       text-align:center;
     }
     .flt-sub{ color:#6b7280; font-size:.93rem; font-weight:500; line-height:1.32; margin:.20rem 0 0; text-align:center; }
@@ -114,6 +120,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Additional CSS overrides for KPI card values and items
 st.markdown("""
 <style>
 .kpi-card .kpi-value{
@@ -130,20 +137,6 @@ st.markdown("""
 @media (max-width:840px){  .kpi-card .kpi-value{ font-size: 1.55rem !important; } }
 </style>
 """, unsafe_allow_html=True)
-
-# JS-fallback: hide default block under H1
-components.html("""
-<script>
-  try {
-    const h1 = window.parent.document.querySelector('h1');
-    if (h1 && h1.nextElementSibling) {
-      const el = h1.nextElementSibling;
-      el.style.display = 'none'; el.style.height = '0'; el.style.margin = '0';
-      el.style.padding = '0'; el.style.border = '0'; el.style.background = 'transparent';
-    }
-  } catch(e) {}
-</script>
-""", height=0, width=0)
 
 # ─────────────────────────────────────────────────────────
 # Guard  data & mapping
@@ -170,7 +163,7 @@ if missing_now:
         st.switch_page("pages/1_📊_Overview.py")
     st.stop()
 
-st.title("📈 Streaming Royalty Analyzer")
+st.title("📈 Music Streaming Royalty Analyzer")
 
 # ─────────────────────────────────────────────────────────
 # Helpers
@@ -718,3 +711,15 @@ tabs = st.tabs(["Platforms", "Countries", "Artists", "Releases", "Tracks"])
 for name, pane in zip(["Platforms","Countries","Artists","Releases","Tracks"], tabs):
     with pane:
         render_tab(name)
+
+# --- Footer with Privacy & Terms (only on homepage) ---
+st.markdown("---")
+st.markdown(
+    """
+    <div style="font-size:0.9rem; color:#6b7280;">
+      © 2025 • <a href="https://github.com/eugkoos/streaming-royalty-analyzer/blob/main/PRIVACY.md" target="_blank">Privacy</a> •
+      <a href="https://github.com/eugkoos/streaming-royalty-analyzer/blob/main/TERMS.md" target="_blank">Terms</a>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)

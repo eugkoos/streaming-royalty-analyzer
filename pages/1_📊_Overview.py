@@ -2,24 +2,34 @@ import streamlit as st
 import pandas as pd
 import re
 
-# ⬇️ Единый контейнер 1200px
+# Unified container 1200px with top padding
 st.markdown("""
 <style>
-.block-container { max-width: 1200px; margin: auto; padding-left: 1rem; padding-right: 1rem; }
+.block-container {
+  max-width: 1200px;
+  margin: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.6rem !important;   /* same top spacing as Dashboard */
+}
+.block-container h1 {
+  margin-top: 0rem !important;
+  margin-bottom: .35rem !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ⬇️ Синие primary-кнопки (работает и для form_submit_button)
+# Primary button styles (also works for form_submit_button)
 st.markdown("""
 <style>
-/* Обычные st.button с type="primary" */
+/* Regular st.button with type="primary" */
 div.stButton > button[kind="primary"]{
   background-color:#1f6feb !important;
   border:1px solid #1f6feb !important;
   color:#fff !important;
   font-weight:500;
 }
-/* Кнопки внутри форм (form_submit_button) */
+/* Buttons inside forms (form_submit_button) */
 form button[data-testid="baseButton-primary"],
 form button[kind="primary"]{
   background-color:#1f6feb !important;
@@ -27,7 +37,7 @@ form button[kind="primary"]{
   color:#fff !important;
   font-weight:500;
 }
-/* Hover-состояние */
+/* Hover state */
 div.stButton > button[kind="primary"]:hover,
 form button[data-testid="baseButton-primary"]:hover,
 form button[kind="primary"]:hover{
@@ -38,7 +48,7 @@ form button[kind="primary"]:hover{
 </style>
 """, unsafe_allow_html=True)
 
-# --- Заголовок и вводный текст ---
+# --- Title and intro text ---
 st.title("Check your columns")
 st.markdown(
     """
@@ -50,7 +60,7 @@ Please review the matches below and confirm — so your dashboard shows the righ
     """
 )
 
-# Берём df из сессии
+# Take df from session
 df = st.session_state.get("df")
 if not isinstance(df, pd.DataFrame):
     df = st.session_state.get("df_raw")
@@ -58,11 +68,11 @@ if not isinstance(df, pd.DataFrame):
     st.error("No data found. Please upload a file first.")
     st.stop()
 
-# Предпросмотр (5 строк)
+# Preview (5 rows)
 st.dataframe(df.head(5), use_container_width=True)
-# st.divider()  # лишняя линия была здесь — убираем
+# st.divider()  # removed extra line
 
-# Канон обязательных полей
+# Canonical required fields
 REQUIRED_FIELDS = {
     # Report info
     "reporting_month": "Month of the statement/report (e.g., 2023-01)",
@@ -79,7 +89,7 @@ REQUIRED_FIELDS = {
     "revenue":         "Revenue/royalty amount",
 }
 
-# Алиасы для авто-детекта (оригинальные + правка для country)
+# Aliases for auto-detect (original + correction for country)
 EXACT_NAMES = {
     "reporting_month": [
         "reporting_month","transaction month","statement month","report month",
@@ -101,13 +111,13 @@ EXACT_NAMES = {
 
 def _norm(s: str) -> str:
     """
-    Unicode-нормализация: приводим к lower и убираем всё, что не буква/цифра,
-    ВКЛЮЧАЯ подчёркивания. Теперь 'Net Revenue' и 'net_revenue' совпадают.
+    Unicode normalization: lowercasing and removing non-alphanumeric,
+    including underscores. Ensures 'Net Revenue' and 'net_revenue' match.
     """
     return re.sub(r"[\W_]+", "", str(s).lower(), flags=re.UNICODE)
 
 def auto_map_exact(columns):
-    """Автоподстановка по точным именам (после нормализации)."""
+    """Auto-mapping based on exact normalized names."""
     cols = list(columns)
     col_norm = {c: _norm(c) for c in cols}
     auto = {}
@@ -118,8 +128,8 @@ def auto_map_exact(columns):
             auto[canon] = match
     return auto
 
-# ── Русские алиасы (ТОЛЬКО из твоего Excel-отчёта) ─────────────────────────
-# Оригинальные заголовки обнаружены в файле:
+# Russian aliases
+# Original headers found in file:
 # 'Месяц продаж','Магазин','Лейбл','Cтрана','Исполнитель','UPC','Альбом','ISRC','Трек',
 # 'Тип контента','Тип транзакции','Количество',
 # 'Доход Лицензиата, ... руб.','Ставка вознаграждения Лицензиара, %','Вознаграждение Лицензиара, руб.'
@@ -131,8 +141,8 @@ RUSSIAN_ALIASES = {
         "Магазин",
     ],
     "country": [
-        "Cтрана",   # с латинской 'C'
-        "Страна",   # на всякий случай с русской 'С'
+        "Cтрана",   # Latin 'C'
+        "Страна",   # Cyrillic 'С'
     ],
     "artist_name": [
         "Исполнитель",
@@ -154,12 +164,11 @@ RUSSIAN_ALIASES = {
     ],
     "revenue": [
         "Вознаграждение Лицензиара, руб.",
-        # в отчёте есть и «Доход Лицензиата, ... руб.» — это не наш таргет,
-        # поэтому не добавляем его в revenue, чтобы не путать мэппинг.
+        # The report also contains «Доход Лицензиата, ... руб.» — not mapped intentionally to avoid confusion.
     ],
 }
 
-# Слияние: расширяем EXACT_NAMES без дубликатов и без изменения остальной логики
+# Merge: extend EXACT_NAMES with Russian aliases (no duplicates)
 for canon, aliases in RUSSIAN_ALIASES.items():
     if canon in EXACT_NAMES:
         merged = list(dict.fromkeys(list(EXACT_NAMES[canon]) + aliases))
@@ -167,13 +176,12 @@ for canon, aliases in RUSSIAN_ALIASES.items():
     else:
         EXACT_NAMES[canon] = list(dict.fromkeys(aliases))
 
-# Авто-детект + учёт сохранённого выбора
+# Auto-detect + check existing mapping from session
 auto_map = auto_map_exact(df.columns)
 existing = st.session_state.get("mapped_fields") or st.session_state.get("mapping") or {}
 initial = {**auto_map, **existing}
 
-# ─────────────────────────────────────────────────────────────
-# Форма мэппинга
+# Form for mapping
 with st.form("mapping_form", clear_on_submit=False):
     st.subheader("Confirm your columns")
     st.caption("Most fields are already filled in — just review and adjust if needed")
@@ -257,19 +265,18 @@ with st.form("mapping_form", clear_on_submit=False):
             selections[key] = pick
             chosen.add(pick)
 
-    # Сообщения о проблемах
+    # Validation messages
     if missing:
         st.warning("Missing fields: " + ", ".join(nice_label[k] for k in missing))
     if dup:
         st.error("Please make sure each field has a unique column. Please fix duplicates.")
 
-    # Навигация
+    # Navigation
     c1, c2 = st.columns([1, 1])
     back_btn    = c1.form_submit_button("⬅️ Back to Upload File", use_container_width=True)
     confirm_btn = c2.form_submit_button("Go to dashboard", type="primary", use_container_width=True)
-# ─────────────────────────────────────────────────────────────
 
-# Обработка кнопок
+# Button handling
 if back_btn:
     st.switch_page("app.py")
 
@@ -286,3 +293,15 @@ if confirm_btn:
         st.session_state["mapping"] = selections
         st.success("Mapping confirmed!")
         st.switch_page("pages/2_📈_Dashboard.py")
+
+# --- Footer with Privacy & Terms (only on homepage) ---
+st.markdown("---")
+st.markdown(
+    """
+    <div style="font-size:0.9rem; color:#6b7280;">
+      © 2025 • <a href="https://github.com/eugkoos/streaming-royalty-analyzer/blob/main/PRIVACY.md" target="_blank">Privacy</a> •
+      <a href="https://github.com/eugkoos/streaming-royalty-analyzer/blob/main/TERMS.md" target="_blank">Terms</a>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)

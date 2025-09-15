@@ -3,14 +3,24 @@ import pandas as pd
 
 st.set_page_config(page_title="Streaming Analytics", layout="wide")
 
-# ⬇️ Unified container 1200px
+# Apply custom CSS to reduce the top whitespace (make it consistent with Dashboard page)
 st.markdown("""
 <style>
-.block-container { max-width: 1200px; margin: auto; padding-left: 1rem; padding-right: 1rem; }
+.block-container {
+    max-width: 1200px;
+    margin: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.6rem !important;   /* remove default top padding */
+}
+.block-container h1 {
+    margin-top: 0rem !important;    /* remove default top margin for title */
+    margin-bottom: .5rem !important; /* keep a compact bottom margin */
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ⬇️ Styles for the blue "primary" button
+# Styles for the blue "primary" button
 st.markdown("""
 <style>
 div.stButton > button[kind="primary"] {
@@ -27,7 +37,7 @@ div.stButton > button[kind="primary"]:hover {
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🎵 Streaming Royalty Analyzer")
+st.title("🎵 Music Streaming Royalty Analyzer")
 
 # --- Intro text ---
 st.markdown(
@@ -158,8 +168,8 @@ st.markdown("---")
 st.markdown(
     """
     <div style="font-size:0.9rem; color:#6b7280;">
-      © 2025 • <a href="https://github.com/yourname/yourrepo/blob/main/PRIVACY.md" target="_blank">Privacy</a> •
-      <a href="https://github.com/yourname/yourrepo/blob/main/TERMS.md" target="_blank">Terms</a>
+      © 2025 • <a href="https://github.com/eugkoos/streaming-royalty-analyzer/blob/main/PRIVACY.md" target="_blank">Privacy</a> •
+      <a href="https://github.com/eugkoos/streaming-royalty-analyzer/blob/main/TERMS.md" target="_blank">Terms</a>
     </div>
     """,
     unsafe_allow_html=True,
